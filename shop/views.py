@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import *
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
-from cart.views import cart
+# from cart.views import cart
 
 
 # Create your views here.
