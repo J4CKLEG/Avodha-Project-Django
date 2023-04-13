@@ -1,0 +1,2 @@
+# Avodha-Project-Django
+Avodha Project Django Backend App with Static Files no API implimentation
