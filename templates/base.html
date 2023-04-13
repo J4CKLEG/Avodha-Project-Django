@@ -24,10 +24,12 @@
         <!-- ################################################################################################ -->
         <ul class="nospace">
           <li><a href="/"><i class="fas fa-home"></i></a></li>
-          <li><a class="active" href="{% url 'cartDetails' %}">Cart</a></li>
-          <li><a class="active" href="#">Register</a> </li>
-          <li><a class="active" href="#">Login</a> </li>
-          <li><a class="active" href="#">Logout</a> </li>
+          <li><a class="active" href="{% url 'cartDetails' %}"><i class="fa fa-shopping-cart" style="font-size:12px"></i>&nbsp;{{itc}}</a></li>
+          <li><a class="active" href="{% url 'register' %}">Register</a></li>
+          <li><a class="active" href="{% url 'logout' %}">Logout</a> </li>
+
+          <li><a class="active" href="{% url 'login' %}">Login</a> </li>
+
           <li id="searchform">
             <div>
               <form action="{% url 'search' %}" method="GET">

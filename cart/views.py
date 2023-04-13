@@ -5,6 +5,7 @@ from shop.models import products
 
 
 def cart_details(request, tot=0, count=0, cart_items=None):
+    ct_items = items.objects.none()  # initialize to an empty queryset
     try:
         ct = cartlist.objects.get(cart_id=c_id(request))
         ct_items = items.objects.filter(cart=ct, active=True)
@@ -59,3 +60,4 @@ def cart_delete(request, product_id):
     c_items = items.objects.get(prod=prod, cart=ct)
     c_items.delete()
     return redirect('cartDetails')
+

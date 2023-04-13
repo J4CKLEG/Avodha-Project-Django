@@ -1,56 +1,206 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Shopping Cart</title>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body {
+  font-family: Arial;
+  font-size: 17px;
+  padding: 8px;
+}
 
-    <link rel="stylesheet" href="{% static 'cr/style.css' %}" media="screen" title="no title" charset="utf-8">
-    <script src="https://code.jquery.com/jquery-2.2.4.js" charset="utf-8"></script>
-    <meta name="robots" content="noindex,follow" />
-  </head>
-  <body>
-    <div class="shopping-cart">
-      <!-- Title -->
-      <div class="title">
-        Shopping Bag
-      </div>
----------------
-      {% for i in ci %}
-      <!-- Product #1 -->
-      <div class="item">
-        <div class="buttons">
-          <span class="delete-btn"></span>
-          <span class="like-btn"></span>
-        </div>
-        <div class="image">
-          <img src="{{ i.prod.get_url }}" alt="{{ i.prod.name }}" />
-        </div>
+* {
+  box-sizing: border-box;
+}
 
-        <div class="description">
-          <span>ID: {{ i.prod.id }}</span>
-          <span>Price: {{ i.prod.price }}</span>
+.row {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  -ms-flex-wrap: wrap; /* IE10 */
+  flex-wrap: wrap;
+  margin: 0 -16px;
+}
 
-          <span>White</span>
-        </div>
+.col-25 {
+  -ms-flex: 25%; /* IE10 */
+  flex: 25%;
+}
 
-        <div class="quantity">
-          <button class="plus-btn" type="button" name="button">
-            <img src="{% static 'cr/plus.svg' %}" alt="" />
-          </button>
-          <input type="text" name="name" value="{{ item.quantity }}">
-          <button class="minus-btn" type="button" name="button">
-            <img src="{% static 'cr/minus.svg' %}" alt="" />
-          </button>
-        </div>
+.col-50 {
+  -ms-flex: 50%; /* IE10 */
+  flex: 50%;
+}
 
-        <div class="total-price">${{ item.product.price }}</div>
-      </div>
-      {% endfor %}
------------------------
+.col-75 {
+  -ms-flex: 75%; /* IE10 */
+  flex: 75%;
+}
+
+.col-25,
+.col-50,
+.col-75 {
+  padding: 0 16px;
+}
+
+.container {
+  background-color: #f2f2f2;
+  padding: 5px 20px 15px 20px;
+  border: 1px solid lightgrey;
+  border-radius: 3px;
+}
+
+input[type=text] {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+label {
+  margin-bottom: 10px;
+  display: block;
+}
+
+.icon-container {
+  margin-bottom: 20px;
+  padding: 7px 0;
+  font-size: 24px;
+}
+
+.btn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  width: 100%;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 17px;
+}
+
+.btn:hover {
+  background-color: #45a049;
+}
+
+a {
+  color: #2196F3;
+}
+
+hr {
+  border: 1px solid lightgrey;
+}
+
+span.price {
+  float: right;
+  color: grey;
+}
+
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other (also change the direction - make the "cart" column go on top) */
+@media (max-width: 800px) {
+  .row {
+    flex-direction: column-reverse;
+  }
+  .col-25 {
+    margin-bottom: 20px;
+  }
+}
+</style>
+</head>
+<body>
+
+  <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> <b>{itc}</b></span></h4>
+ 
+ 
+  {% for i in ci %}
+  <div class="col-25">
+    <div class="container">
+      
+     <a href="{{i.prod.get_url}}"><img src="{{i.prod.img.url}}" alt="{{i.prod.name}}"style="height: 70;width: 70;">
+        <p> {{i.prod.name}}</a> <span class="price">&nbsp;{{i.total}}<br><a href="{% url 'cart_decrement' i.prod.id %}"> - </a> &nbsp;{{i.quan}} &nbsp;<a href="{% url 'addcart' i.prod.id %}">+</a>&nbsp;&nbsp;<a href="{% url 'remove' i.prod.id %}"><br><button style="font-size:14px"><i class="fa fa-trash-o"></i></button></a></span></p>
+      <p>{{i.prod.price}}</p>
+        <p>Qty{{i.quan}}</p>
+
+      <hr>
+
     </div>
-  </body>
+  </div>
+</div>
+{% endfor %}
+
+
+<div>
+ <p><span class="price" style="color:white"><b>Total : {{t}}</b></span></p>
+</div>
+  <br>
+  <br>
+  <br>
+  <h2>Checkout Form</h2>
+<div class="row">
+  <div class="col-75">
+    <div class="container">
+      <form action="/action_page.php">
+      
+        <div class="row">
+          <div class="col-50">
+            <h3>Billing Address</h3>
+            <label for="fname"><i class="fa fa-user"></i> Full Name</label>
+            <input type="text" id="fname" name="firstname" placeholder="Akhil Joy">
+            <label for="email"><i class="fa fa-envelope"></i> Email</label>
+            <input type="text" id="email" name="email" placeholder="akhiljoy@gmail.com">
+            <label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
+            <input type="text" id="adr" name="address" placeholder="Hotel Leela">
+            <label for="city"><i class="fa fa-institution"></i> City</label>
+            <input type="text" id="city" name="city" placeholder="Trivandrum">
+
+            <div class="row">
+              <div class="col-50">
+                <label for="state">State</label>
+                <input type="text" id="state" name="state" placeholder="Kerala">
+              </div>
+              <div class="col-50">
+                <label for="zip">Zip</label>
+                <input type="text" id="zip" name="zip" placeholder="695527">
+              </div>
+            </div>
+          </div>
+
+          <div class="col-50">
+            <h3>Payment</h3>
+            <label for="fname">Accepted Cards</label>
+            <div class="icon-container">
+              <i class="fa fa-cc-visa" style="color:navy;"></i>
+              <i class="fa fa-cc-mastercard" style="color:red;"></i>
+            </div>
+            <label for="cname">Name on Card</label>
+            <input type="text" id="cname" name="cardname" placeholder="Akhil Joy">
+            <label for="ccnum">Credit card number</label>
+            <input type="text" id="ccnum" name="cardnumber" placeholder="67**-****-****-**54">
+            <label for="expmonth">Exp Month</label>
+            <input type="text" id="expmonth" name="expmonth" placeholder="September">
+            <div class="row">
+              <div class="col-50">
+                <label for="expyear">Exp Year</label>
+                <input type="text" id="expyear" name="expyear" placeholder="2025">
+              </div>
+              <div class="col-50">
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" name="cvv" placeholder="***">
+              </div>
+            </div>
+          </div>
+          
+        </div>
+       
+        <input type="submit" value="Continue to checkout" class="btn">
+      </form>
+    </div>
+  </div>
+</body>
 </html>
+
 {% endblock %}

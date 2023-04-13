@@ -19,3 +19,6 @@ class items(models.Model):
 
     def __str__(self):
         return self.prod
+
+    def total(self):
+        return self.prod.price*self.quan

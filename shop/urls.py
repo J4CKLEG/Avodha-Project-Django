@@ -9,3 +9,4 @@ urlpatterns = [
     path('search', views.searching, name='search'),
     # path('', cart_details, name='cartDetails'),
 ]
+
