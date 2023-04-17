@@ -3,7 +3,7 @@ from .models import *
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.contrib.auth.forms import UserCreationForm
-from cart.views import cart
+from cart.views import cart_detail
 from django.contrib import messages
 
 
