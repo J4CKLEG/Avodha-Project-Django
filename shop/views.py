@@ -10,14 +10,14 @@ def home(request, c_slug=None):
     c_page = None
     prodt = None
     cat = None
-    if c_slug != None:
+    paginator = Paginator(products.objects.filter(available=True).all(), 2)
+
+    if c_slug:
         c_page = get_object_or_404(categ, slug=c_slug)
         prodt = products.objects.filter(category=c_page, available=True)
-
-    else:
-        prodt = products.objects.filter(available=True).all()
-        cat = categ.objects.all()
         paginator = Paginator(prodt, 2)
+    else:
+        cat = categ.objects.all()
 
     try:
         page = int(request.GET.get('page', 1))
@@ -29,6 +29,7 @@ def home(request, c_slug=None):
         pro = paginator.page(paginator.num_pages)
 
     return render(request, 'index.html', {'pr': prodt, 'ct': cat, 'pg': pro})
+
 
 
 def prodDetails(request, c_slug, product_slug):
