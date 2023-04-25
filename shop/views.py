@@ -9,14 +9,14 @@ def home(request, c_slug=None):
     c_page = None
     prodt = None
     cat = None
-    paginator = Paginator(Product.objects.filter(available=True).all(), 2)
+    paginator = Paginator(products.objects.filter(available=True).all(), 2)
 
     if c_slug:
-        c_page = get_object_or_404(Category, slug=c_slug)
-        prodt = Product.objects.filter(category=c_page, available=True)
+        c_page = get_object_or_404(categ, slug=c_slug)
+        prodt = products.objects.filter(categ=c_page, available=True)
         paginator = Paginator(prodt, 2)
     else:
-        cat = Category.objects.all()
+        cat = categ.objects.all()
 
     try:
         page = int(request.GET.get('page', 1))
@@ -29,9 +29,9 @@ def home(request, c_slug=None):
 
     return render(request, 'index.html', {'pr': prodt, 'ct': cat, 'pg': pro})
 
-def prodDetails(request, c_slug, product_slug):
+def prodDetails(request, c_slug, products_slug):
     try:
-        prod = Product.objects.get(category__slug=c_slug, slug=product_slug)
+        prod = products.objects.get(categ__slug=c_slug, slug=products_slug)
     except Exception as e:
         raise e
     return render(request, 'item.html', {'pr': prod})
@@ -41,7 +41,7 @@ def searching(request):
     query = None
     if 'q' in request.GET:
         query = request.GET.get('q')
-        prod = Product.objects.all().filter(Q(name__contains=query) | Q(desc__contains=query))
+        prod = products.objects.all().filter(Q(name__contains=query) | Q(desc__contains=query))
     return render(request, 'search.html', {'qr': query, 'pr': prod})
 
 def contact(request):
