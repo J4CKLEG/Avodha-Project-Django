@@ -1,9 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.db.models import Q
-from .forms import ContactForm
-from .models import Category, Product
-
+# from .forms import ContactForm
+from .models import categ, products
 # Create your views here.
 
 def home(request, c_slug=None):
